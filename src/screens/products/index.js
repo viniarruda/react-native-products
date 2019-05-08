@@ -14,13 +14,13 @@ const renderItem = ({ item }) => (
 const Products = (props) => {
   const { maps, requestProducts, products } = props
 
-  fetchData = async () => {
-    requestProducts(maps.list.results[0].geometry.location.lat, maps.list.results[0].geometry.location.lng)
+  async function fetchData() {
+    await requestProducts(maps.list.results[0].geometry.location.lat, maps.list.results[0].geometry.location.lng)
   }
 
-  useEffect(() => {
+  useEffect(() => { 
     fetchData()
-  })
+  }, []);
 
   return (
       <View style={styles.container} >
