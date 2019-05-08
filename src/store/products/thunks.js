@@ -23,11 +23,9 @@ export const requestPoc = (lat, long) => async (dispatch, getState) => {
   return true
 }
 
-export const requestProducts = (categoryId) => async (dispatch, getState) => {
+export const requestProducts = (search, categoryId) => async (dispatch, getState) => {
   const { products } = getState()
   dispatch(searchProductsRequested())
-  let search = ""
-  console.log(products)
   // The Query needed to get the right POC (Get the first POC):
   let poc = products.poc.pocSearch[0].id
   const response = await searchProducts(poc, search, categoryId)

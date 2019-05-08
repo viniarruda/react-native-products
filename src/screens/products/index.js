@@ -9,6 +9,7 @@ import styles from './components/styles'
 
 const renderItem = ({ item }) => (
   <View style={styles.card}>
+    {console.log('products', item)}
     <Text>{item.tradingName}</Text>
     <Text>{item.phone.phoneNumber}</Text>
   </View>
@@ -31,7 +32,10 @@ const Products = (props) => {
 
   const fetchData = async () => {
     await requestPoc(maps.list.results[0].geometry.location.lat, maps.list.results[0].geometry.location.lng)
+    let initialCategory = ""
+    let search = ""
     await requestCategories()
+    await requestProducts(search, initialCategory)
   }
 
   useEffect(() => { 
@@ -40,9 +44,9 @@ const Products = (props) => {
 
   return (
       <View style={styles.container} >
-        {
+        {/* {
           products.loading && <ActivityIndicator size="large" color="#F0FF00" />
-        }
+        } */}
         <Text style={styles.title}>List Products</Text>
         <View style={styles.filter}>
           <TextInput
@@ -64,23 +68,29 @@ const Products = (props) => {
               }
             >
               {
-                categories.list && categories.list.allCategory.map((c) => 
-                  <Picker.Item key={c.id} label={c.title} value={c.id} />
-                ) 
+                categories.list && [
+                  <Picker.Item key="none" label="Select..." value="none" />,
+                  ...(categories.list.allCategory.map((c) => 
+                    <Picker.Item key={c.id} label={c.title} value={c.id} />
+                ))
+                ]
               }
             </Picker>
             <TouchableOpacity style={styles.filterButton} onPress={handleFilter}>
-              <Text>Filtrar</Text>
+              <Text style={styles.textFilterButton}>Filtrar</Text>
             </TouchableOpacity>
         </View>
         {
           products.list && 
             <FlatList
-              data={products.list.pocSearch}
+              data={products.list.poc.products}
               keyExtractor={result => result.id}
               //ItemSeparatorComponent={}
               renderItem={renderItem}
             />
+        }
+        {
+          products.list && console.log(products.list)
         }
     </View>
   )

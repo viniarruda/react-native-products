@@ -16,8 +16,8 @@ const styles = StyleSheet.create({
     marginBottom: 15
   },
   filter: {
+    flex: 1,
     flexDirection: 'row',
-
   },
   input: {
     flex: 1,
@@ -32,10 +32,12 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     fontSize: 16,
     paddingHorizontal: 10,
-    color: 'white',
     backgroundColor: '#7159c1',
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  textFilterButton: {
+    color: '#fff',
   },
   card: {
     flex: 1,
