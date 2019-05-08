@@ -48,6 +48,10 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 5
   },
+  cardImage: {
+    height: 40,
+    alignSelf: 'center'
+  },
   picker: {
     flex: 1,
     fontSize: 16,

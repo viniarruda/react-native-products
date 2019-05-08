@@ -3,15 +3,20 @@ import { connect } from 'react-redux'
 import { requestPoc, requestProducts } from '../../store/products/thunks'
 import { requestCategories } from '../../store/categories/thunks'
 
-import { View, Text, FlatList, ActivityIndicator, Picker, TextInput, TouchableOpacity } from 'react-native'
+import { View, Text, FlatList, Image, Picker, TextInput, TouchableOpacity } from 'react-native'
 import Loader from '../../components/loader'
 import styles from './components/styles'
 
 const renderItem = ({ item }) => (
   <View style={styles.card}>
     {console.log('products', item)}
-    <Text>{item.tradingName}</Text>
-    <Text>{item.phone.phoneNumber}</Text>
+    <Image style={styles.cardImage} source={{uri: item.imageUrl}} />
+    <Text>{item.title}</Text>
+    <Text>{item.price}</Text>
+    {
+      item.description &&
+      <Text>R${item.description}</Text>
+    }
   </View>
 );
 
@@ -32,7 +37,7 @@ const Products = (props) => {
 
   const fetchData = async () => {
     await requestPoc(maps.list.results[0].geometry.location.lat, maps.list.results[0].geometry.location.lng)
-    let initialCategory = ""
+    let initialCategory = 0
     let search = ""
     await requestCategories()
     await requestProducts(search, initialCategory)
@@ -44,9 +49,7 @@ const Products = (props) => {
 
   return (
       <View style={styles.container} >
-        {/* {
-          products.loading && <ActivityIndicator size="large" color="#F0FF00" />
-        } */}
+        <Loader loading={categories.loading || products.loading || products.poc} />
         <Text style={styles.title}>List Products</Text>
         <View style={styles.filter}>
           <TextInput
@@ -69,7 +72,7 @@ const Products = (props) => {
             >
               {
                 categories.list && [
-                  <Picker.Item key="none" label="Select..." value="none" />,
+                  <Picker.Item key="none" label="Select..." value="0" />,
                   ...(categories.list.allCategory.map((c) => 
                     <Picker.Item key={c.id} label={c.title} value={c.id} />
                 ))
@@ -83,14 +86,14 @@ const Products = (props) => {
         {
           products.list && 
             <FlatList
-              data={products.list.poc.products}
-              keyExtractor={result => result.id}
+              data={products.list.poc.products[0].productVariants}
+              keyExtractor={result => result.productVariantId}
               //ItemSeparatorComponent={}
               renderItem={renderItem}
             />
         }
         {
-          products.list && console.log(products.list)
+          products.list && console.log('prod', products.list)
         }
     </View>
   )

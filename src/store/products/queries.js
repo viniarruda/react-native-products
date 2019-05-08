@@ -68,13 +68,13 @@ export const searchPoc = (lat, long, now) => {
 
 
 export const searchProducts = (poc, search, categoryId) => {
-  console.log(poc, search, categoryId)
   return axios.post(api.graphql.url, {
     query: `
       query pocCategorySearch($id: ID!, $search: String!, $categoryId: Int!) {
         poc(id: $id) {
           products(categoryId: $categoryId, search: $search) {
             productVariants{
+              productVariantId
               title
               description
               imageUrl
@@ -87,7 +87,7 @@ export const searchProducts = (poc, search, categoryId) => {
     variables: {
       "id": poc,
       "search": search,
-      "categoryId": categoryId
+      "categoryId": Number(categoryId)
     }
   })
   .then(res => res.data)
