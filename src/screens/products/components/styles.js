@@ -20,6 +20,18 @@ const styles = StyleSheet.create({
     shadowOpacity: 1.0,
     padding: 20,
     borderRadius: 5
+  },
+  picker: {
+    fontSize: 16,
+    paddingHorizontal: 20,
+    marginTop: 30,
+    height: 50, 
+    width: 200
+  },
+  pickerSelect: {
+    borderWidth: 1,
+    borderColor: '#DDD',
+    borderRadius: 4,
   }
 })
 

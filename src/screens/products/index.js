@@ -9,14 +9,13 @@ import styles from './components/styles'
 
 const renderItem = ({ item }) => (
   <View style={styles.card}>
-    {console.log(item)}
     <Text>{item.tradingName}</Text>
     <Text>{item.phone.phoneNumber}</Text>
   </View>
 );
 
 const Products = (props) => {
-  const { maps, requestProducts, products, categories } = props
+  const { maps, requestProducts, requestCategories, products, categories } = props
 
   const fetchData = async () => {
     await requestProducts(maps.list.results[0].geometry.location.lat, maps.list.results[0].geometry.location.lng)
@@ -34,13 +33,15 @@ const Products = (props) => {
         }
         <Text style={styles.title}>List Products</Text>
         <Picker
-          style={{height: 50, width: 100}}
+          style={styles.picker}
+          selectedValue={categories.list && categories.list.allCategory[0]}
+          itemStyle={styles.pickerSelect}
           // onValueChange={(itemValue, itemIndex) =>
           //   this.setState({language: itemValue})}
           >
           {
             categories.list && categories.list.allCategory.map((c) => 
-              <Picker.Item label={c.title} value={c.id} />
+              <Picker.Item key={c.id} label={c.title} value={c.id} />
             ) 
           }
         </Picker>
@@ -54,7 +55,7 @@ const Products = (props) => {
             />
         }
         {
-          products.list && console.log(products.list.pocSearch)
+          categories.list && console.log(categories.list)
         }
     </View>
   )
