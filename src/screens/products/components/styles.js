@@ -10,7 +10,31 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 16,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    alignSelf: 'center',
+    marginTop: 10,
+    marginBottom: 15
+  },
+  filter: {
+    flexDirection: 'row',
+
+  },
+  input: {
+    flex: 1,
+    height: 48,
+    borderWidth: 1,
+    borderColor: '#DDD',
+    borderRadius: 4,
+    fontSize: 16,
+  },
+  filterButton: {
+    height: 48,
+    borderRadius: 4,
+    fontSize: 16,
+    paddingHorizontal: 10,
+    backgroundColor: '#7159c1',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   card: {
     flex: 1,
@@ -22,11 +46,10 @@ const styles = StyleSheet.create({
     borderRadius: 5
   },
   picker: {
+    flex: 1,
     fontSize: 16,
     paddingHorizontal: 20,
-    marginTop: 30,
-    height: 50, 
-    width: 200
+    height: 48
   },
   pickerSelect: {
     borderWidth: 1,

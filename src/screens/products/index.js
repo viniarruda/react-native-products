@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
-import { requestProducts } from '../../store/products/thunks'
+import { requestPoc, requestProducts } from '../../store/products/thunks'
 import { requestCategories } from '../../store/categories/thunks'
 
-import { View, Text, FlatList, ActivityIndicator, Picker } from 'react-native'
+import { View, Text, FlatList, ActivityIndicator, Picker, TextInput, TouchableOpacity } from 'react-native'
 import Loader from '../../components/loader'
 import styles from './components/styles'
 
@@ -15,10 +15,16 @@ const renderItem = ({ item }) => (
 );
 
 const Products = (props) => {
-  const { maps, requestProducts, requestCategories, products, categories } = props
+  const { maps, requestPoc, requestProducts, requestCategories, products, categories } = props
+  const [pickerValue, setPickerValue] = useState()
+
+  const handleChange = async (value) => {
+    await setPickerValue(value)
+    await requestProducts(value)
+  }
 
   const fetchData = async () => {
-    await requestProducts(maps.list.results[0].geometry.location.lat, maps.list.results[0].geometry.location.lng)
+    await requestPoc(maps.list.results[0].geometry.location.lat, maps.list.results[0].geometry.location.lng)
     await requestCategories()
   }
 
@@ -32,19 +38,35 @@ const Products = (props) => {
           products.loading && <ActivityIndicator size="large" color="#F0FF00" />
         }
         <Text style={styles.title}>List Products</Text>
-        <Picker
-          style={styles.picker}
-          selectedValue={categories.list && categories.list.allCategory[0]}
-          itemStyle={styles.pickerSelect}
-          // onValueChange={(itemValue, itemIndex) =>
-          //   this.setState({language: itemValue})}
-          >
-          {
-            categories.list && categories.list.allCategory.map((c) => 
-              <Picker.Item key={c.id} label={c.title} value={c.id} />
-            ) 
-          }
-        </Picker>
+        <View style={styles.filter}>
+          <TextInput
+            style={styles.input}
+            placeholder="Search..."
+            placeholderTextColor="#999"
+            autoCapitalize="none" 
+            autoCorrect={false} 
+            underlineColorAndroid="transparent"
+            // value={this.state.newSearch}
+            // onChangeText={text => this.setState({ newSearch: text })}
+            />
+            <Picker
+              style={styles.picker}
+              itemStyle={styles.pickerSelect}
+              selectedValue={pickerValue}
+              onValueChange={(itemValue, itemIndex) =>
+                handleChange(itemValue)
+              }
+            >
+              {
+                categories.list && categories.list.allCategory.map((c) => 
+                  <Picker.Item key={c.id} label={c.title} value={c.id} />
+                ) 
+              }
+            </Picker>
+            <TouchableOpacity style={styles.filterButton} onPress={this.handleSearch}>
+              <Text>Filtrar</Text>
+            </TouchableOpacity>
+        </View>
         {
           products.list && 
             <FlatList
@@ -53,9 +75,6 @@ const Products = (props) => {
               //ItemSeparatorComponent={}
               renderItem={renderItem}
             />
-        }
-        {
-          categories.list && console.log(categories.list)
         }
     </View>
   )
@@ -68,6 +87,7 @@ const mapStateToProps = (state) => ({
 })
 
 export default connect(mapStateToProps, {
+  requestPoc,
   requestProducts,
   requestCategories
 })(Products)
