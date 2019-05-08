@@ -1,8 +1,7 @@
 import axios from 'axios'
 import api from '../../utils/api'
 
-export const searchMap = (lat, long, now) => {
-  console.log('query:', lat, long, now)
+export const searchProducts = (lat, long, now) => {
   return axios.post(api.graphql.url, {
     query: `
       query pocSearchMethod($now: DateTime!, $algorithm: String!, $lat: String!, $long: String!) {

@@ -7,7 +7,6 @@ import { searchProducts } from './queries'
 
 export const requestProducts = (lat, long) => async (dispatch, getState) => {
   dispatch(searchProductsRequested())
-  console.log('bbbbbbbbbbbbb')
   let now = new Date()
   const response = await searchProducts(lat, long, now)
   
@@ -17,7 +16,6 @@ export const requestProducts = (lat, long) => async (dispatch, getState) => {
 
     throw 'Error' 
   }
-  console.log('response', response.data)
   dispatch(searchProductsFulfilled(response.data))
   return true
 }

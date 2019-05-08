@@ -6,15 +6,17 @@ import { View, Text, FlatList, ActivityIndicator } from 'react-native'
 import styles from './components/styles'
 
 const renderItem = ({ item }) => (
-  <Text>
-    {item.geometry.location.lat}
-  </Text>
+  <View style={styles.card}>
+    <Text>{item.tradingName}</Text>
+    <Text>{item.phone}</Text>
+    <Text></Text>
+  </View>
 );
 
 const Products = (props) => {
   const { maps, requestProducts, products } = props
 
-  async function fetchData() {
+  const fetchData = async () => {
     await requestProducts(maps.list.results[0].geometry.location.lat, maps.list.results[0].geometry.location.lng)
   }
 
@@ -25,17 +27,20 @@ const Products = (props) => {
   return (
       <View style={styles.container} >
         {
-          maps.loading && <ActivityIndicator size="large" color="#F0FF00" />
+          products.loading && <ActivityIndicator size="large" color="#F0FF00" />
         }
-        <Text>List Products</Text>
+        <Text style={styles.title}>List Products</Text>
         {
-          products.list && console.log(products.list, 'products')
-            // <FlatList
-            //   data={maps.list.results}
-            //   keyExtractor={result => result.plus_code.global_code}
-            //   //ItemSeparatorComponent={}
-            //   renderItem={renderItem}
-            // />
+          products.list && 
+            <FlatList
+              data={products.list.pocSearch}
+              keyExtractor={result => result.id}
+              //ItemSeparatorComponent={}
+              renderItem={renderItem}
+            />
+        }
+        {
+          products.list && console.log(products.list.pocSearch)
         }
     </View>
   )
