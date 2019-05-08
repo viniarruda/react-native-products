@@ -18,6 +18,7 @@ const styles = StyleSheet.create({
   filter: {
     flex: 1,
     flexDirection: 'row',
+    marginBottom: 30
   },
   input: {
     flex: 1,
@@ -39,14 +40,17 @@ const styles = StyleSheet.create({
   textFilterButton: {
     color: '#fff',
   },
+  cardList: {
+    paddingTop: 20
+  },
   card: {
-    flex: 1,
     backgroundColor: '#f6f8fa',
     shadowOffset: {  width: 10,  height: 10,  },
     shadowColor: 'black',
     shadowOpacity: 1.0,
     padding: 20,
-    borderRadius: 5
+    borderRadius: 5,
+    marginTop: 15
   },
   cardImage: {
     height: 40,

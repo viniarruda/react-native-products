@@ -9,13 +9,12 @@ import styles from './components/styles'
 
 const renderItem = ({ item }) => (
   <View style={styles.card}>
-    {console.log('products', item)}
-    <Image style={styles.cardImage} source={{uri: item.imageUrl}} />
-    <Text>{item.title}</Text>
-    <Text>{item.price}</Text>
+    <Image style={styles.cardImage} source={{uri: item.productVariants[0].imageUrl ? item.productVariants[0].imageUrl : 'http://chittagongit.com/download/296961'}} />
+    <Text>{item.productVariants[0].title}</Text>
+    <Text>R${item.productVariants[0].price}</Text>
     {
-      item.description &&
-      <Text>R${item.description}</Text>
+      item.productVariants[0].description &&
+      <Text>{item.productVariants[0].description}</Text>
     }
   </View>
 );
@@ -49,7 +48,7 @@ const Products = (props) => {
 
   return (
       <View style={styles.container} >
-        <Loader loading={categories.loading || products.loading || products.poc} />
+        <Loader loading={!categories.list || !products.list || !products.poc} />
         <Text style={styles.title}>List Products</Text>
         <View style={styles.filter}>
           <TextInput
@@ -86,10 +85,11 @@ const Products = (props) => {
         {
           products.list && 
             <FlatList
-              data={products.list.poc.products[0].productVariants}
-              keyExtractor={result => result.productVariantId}
+              data={products.list.poc.products}
+              keyExtractor={result => result.productVariants[0].productVariantId}
               //ItemSeparatorComponent={}
               renderItem={renderItem}
+              style={styles.cardList}
             />
         }
         {
