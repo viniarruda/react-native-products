@@ -6,10 +6,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'stretch',
     paddingHorizontal: 30,
+    backgroundColor: '#808080'
   },
   logo: {
     height: 80,
-    alignSelf: 'center'
+    width: 250,
+    alignSelf: 'center',
+    paddingHorizontal: 20,
   },
   input: {
     height: 48,
@@ -26,14 +29,14 @@ const styles = StyleSheet.create({
     fontSize: 16,
     paddingHorizontal: 20,
     marginTop: 10,
-    backgroundColor: '#7159c1',
+    backgroundColor: '#fff000',
     justifyContent: 'center',
     alignItems: 'center'
   },
   buttonText: { 
     fontWeight: 'bold',
     fontSize: 16,
-    color: '#fff'
+    color: '#000'
   }
 })
 

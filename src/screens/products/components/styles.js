@@ -18,7 +18,6 @@ const styles = StyleSheet.create({
   filter: {
     flex: 1,
     flexDirection: 'row',
-    marginBottom: 30
   },
   input: {
     flex: 1,
@@ -40,8 +39,8 @@ const styles = StyleSheet.create({
   textFilterButton: {
     color: '#fff',
   },
-  cardList: {
-    paddingTop: 20
+  content: {
+    flex: 4,
   },
   card: {
     backgroundColor: '#f6f8fa',
@@ -50,11 +49,23 @@ const styles = StyleSheet.create({
     shadowOpacity: 1.0,
     padding: 20,
     borderRadius: 5,
-    marginTop: 15
+    marginTop: 15,
+    paddingHorizontal: 20,
   },
   cardImage: {
-    height: 40,
+    minHeight: 40,
+    width: 60,
     alignSelf: 'center'
+  },
+  cardTitle: {
+    fontSize: 20
+  },
+  cardPrice: {
+    fontWeight: 'bold',
+    fontSize: 16
+  },
+  cardDescription: {
+    fontSize: 14
   },
   picker: {
     flex: 1,
@@ -66,6 +77,13 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#DDD',
     borderRadius: 4,
+  },
+  empty: {
+    flex: 4,
+    alignSelf: 'flex-start',
+    textAlign: 'center',
+    fontSize: 16,
+    color: '#000',
   }
 })
 

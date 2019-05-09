@@ -10,11 +10,11 @@ import styles from './components/styles'
 const renderItem = ({ item }) => (
   <View style={styles.card}>
     <Image style={styles.cardImage} source={{uri: item.productVariants[0].imageUrl ? item.productVariants[0].imageUrl : 'http://chittagongit.com/download/296961'}} />
-    <Text>{item.productVariants[0].title}</Text>
-    <Text>R${item.productVariants[0].price}</Text>
+    <Text style={styles.cardTitle}>{item.productVariants[0].title}</Text>
+    <Text style={styles.cardPrice}>R${item.productVariants[0].price}</Text>
     {
       item.productVariants[0].description &&
-      <Text>{item.productVariants[0].description}</Text>
+      <Text style={styles.cardDescription}>{item.productVariants[0].description}</Text>
     }
   </View>
 );
@@ -29,8 +29,7 @@ const Products = (props) => {
   }
 
   const handleFilter = async () => {
-    console.log(pickerValue, searchValue)
-    await requestProducts(pickerValue)
+    await requestProducts(searchValue, pickerValue)
     await setSearchValue("")
   }
 
@@ -54,7 +53,7 @@ const Products = (props) => {
           <TextInput
             style={styles.input}
             placeholder="Search..."
-            placeholderTextColor="#999"
+            placeholderTextColor="#fff"
             autoCapitalize="none" 
             autoCorrect={false} 
             underlineColorAndroid="transparent"
@@ -79,11 +78,12 @@ const Products = (props) => {
               }
             </Picker>
             <TouchableOpacity style={styles.filterButton} onPress={handleFilter}>
-              <Text style={styles.textFilterButton}>Filtrar</Text>
+              <Text style={styles.textFilterButton}>Filter</Text>
             </TouchableOpacity>
         </View>
+        <View style={styles.content}>
         {
-          products.list && 
+          products.list &&
             <FlatList
               data={products.list.poc.products}
               keyExtractor={result => result.productVariants[0].productVariantId}
@@ -93,8 +93,9 @@ const Products = (props) => {
             />
         }
         {
-          products.list && console.log('prod', products.list)
+          products.list && !products.list.length && <Text style={styles.empty}>No products found</Text>
         }
+        </View>
     </View>
   )
 }
