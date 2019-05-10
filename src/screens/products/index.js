@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { requestPoc, requestProducts } from '../../store/products/thunks'
 import { requestCategories } from '../../store/categories/thunks'
 
-import { View, Text, FlatList, Image, Picker, TextInput, TouchableOpacity } from 'react-native'
+import { View, Text, FlatList, Image, Picker, TextInput, TouchableOpacity, Button } from 'react-native'
 import Loader from '../../components/loader'
 import styles from './components/styles'
 
@@ -33,6 +33,10 @@ const Products = (props) => {
     await setSearchValue("")
   }
 
+  const handleBack = () => {
+    props.navigation.navigate('Main')
+  }
+
   const fetchData = async () => {
     await requestPoc(maps.list.results[0].geometry.location.lat, maps.list.results[0].geometry.location.lng)
     let initialCategory = 0
@@ -48,7 +52,10 @@ const Products = (props) => {
   return (
       <View style={styles.container} >
         <Loader loading={!categories.list || !products.list || !products.poc} />
-        <Text style={styles.title}>List Products</Text>
+        <View style={styles.header}>
+          <Text style={styles.btnBack} onPress={handleBack}>Back</Text>
+          <Text style={styles.title}>List Products</Text>
+        </View>
         <View style={styles.filter}>
           <TextInput
             style={styles.input}
@@ -60,40 +67,39 @@ const Products = (props) => {
             value={searchValue}
             onChangeText={text => setSearchValue(text)}
             />
-            <Picker
-              style={styles.picker}
-              itemStyle={styles.pickerSelect}
-              selectedValue={pickerValue}
-              onValueChange={(itemValue, itemIndex) =>
-                handleChange(itemValue)
-              }
-            >
-              {
-                categories.list && [
-                  <Picker.Item key="none" label="Select..." value="0" />,
-                  ...(categories.list.allCategory.map((c) => 
-                    <Picker.Item key={c.id} label={c.title} value={c.id} />
-                ))
-                ]
-              }
-            </Picker>
+            <View style={styles.containerPicker}>
+              <Picker
+                style={styles.picker}
+                itemStyle={styles.pickerSelect}
+                selectedValue={pickerValue}
+                onValueChange={(itemValue, itemIndex) =>
+                  handleChange(itemValue)
+                }
+              >
+                {
+                  categories.list && [
+                    <Picker.Item key="none" label="Select..." value="0" />,
+                    ...(categories.list.allCategory.map((c) => 
+                      <Picker.Item key={c.id} label={c.title} value={c.id} />
+                  ))
+                  ]
+                }
+              </Picker>
+            </View>
             <TouchableOpacity style={styles.filterButton} onPress={handleFilter}>
               <Text style={styles.textFilterButton}>Filter</Text>
             </TouchableOpacity>
         </View>
         <View style={styles.content}>
         {
-          products.list &&
+          products.list && products.list.poc.products.length > 0 ?
             <FlatList
               data={products.list.poc.products}
               keyExtractor={result => result.productVariants[0].productVariantId}
               //ItemSeparatorComponent={}
               renderItem={renderItem}
               style={styles.cardList}
-            />
-        }
-        {
-          products.list && !products.list.length && <Text style={styles.empty}>No products found</Text>
+            /> : <Text style={styles.empty}>No products found</Text>
         }
         </View>
     </View>

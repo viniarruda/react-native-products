@@ -13,7 +13,17 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     alignSelf: 'center',
     marginTop: 10,
-    marginBottom: 15
+    marginBottom: 15,
+    flex: 1
+  },
+  header: {
+    flexDirection: 'row',
+  },
+  btnBack: {
+    fontSize: 16,
+    marginTop: 10,
+    marginBottom: 15,
+    flex: 1
   },
   filter: {
     flex: 1,
@@ -34,7 +44,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     backgroundColor: '#7159c1',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   textFilterButton: {
     color: '#fff',
@@ -67,16 +77,17 @@ const styles = StyleSheet.create({
   cardDescription: {
     fontSize: 14
   },
-  picker: {
-    flex: 1,
-    fontSize: 16,
-    paddingHorizontal: 20,
-    height: 48
-  },
-  pickerSelect: {
+  containerPicker: {
+    overflow: 'hidden',
     borderWidth: 1,
     borderColor: '#DDD',
     borderRadius: 4,
+    marginHorizontal: 10,
+    flex: 1,
+    height: 48
+  },
+  picker: {
+    fontSize: 16,
   },
   empty: {
     flex: 4,
